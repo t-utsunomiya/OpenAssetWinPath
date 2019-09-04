@@ -25,6 +25,8 @@ namespace UnrealBuildTool.Rules
 					"LevelEditor",
 					"Slate",
 					"SlateCore",
+                    "MainFrame",
+                    "InputCore",
 				}
 				);
 
