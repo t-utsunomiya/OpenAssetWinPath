@@ -1,11 +1,13 @@
+#ifdef WITH_EDITOR
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 #include "IOpenAssetWinPath.h"
 #include "LevelEditor.h"
-#include "MultiBox/MultiBoxBuilder.h"
 #include "Textures/SlateIcon.h"
 #include "Editor/MainFrame/Public/Interfaces/IMainFrameModule.h"
 #include "SWindow.h"
+#include "Framework/Application/SlateApplication.h"
+#include "OpenAssetWinPathDialog.h"
 #define LOCTEXT_NAMESPACE "OpenAssetWinPath"
 
 
@@ -22,10 +24,8 @@ private:
 private:
 	void OnMainFrameLoad(TSharedPtr<SWindow> InRootWindow, bool bIsNewProjectWindow);
 	TWeakPtr<SWindow> RootWindow;
-	TWeakPtr<SWindow> OpenAssetWindow;
+	TWeakPtr<SOpenAssetWinPathDialog> OpenAssetDialog;
 
-private:
-	FReply OnButtonClicked();
 };
 
 IMPLEMENT_MODULE( FOpenAssetWinPath, OpenAssetWinPath )
@@ -90,43 +90,21 @@ void FOpenAssetWinPath::OnWindowMenuExtension(FMenuBuilder& MenuBuilder)
 
 void FOpenAssetWinPath::OnMenu()
 {
-	if (!OpenAssetWindow.IsValid())
+	if (!OpenAssetDialog.IsValid())
 	{
-		TSharedPtr<SWindow> Window = SNew(SWindow)
-			.Title(LOCTEXT("OpenAssetWinPathWindow", "OpenAssetWinPathWindow"))
-			.ClientSize(FVector2D(300.f, 300.f));
-		OpenAssetWindow = TWeakPtr<SWindow>(Window);
+		TSharedPtr<SOpenAssetWinPathDialog> Dialog = SNew(SOpenAssetWinPathDialog)
+			.Title(LOCTEXT("OpenAssetWinPathDialog", "OpenAssetWinPathDialog"));
+		OpenAssetDialog = TWeakPtr<SOpenAssetWinPathDialog>(Dialog);
 		if (RootWindow.IsValid())
 		{
 			FSlateApplication::Get().AddWindowAsNativeChild(
-				Window.ToSharedRef(), RootWindow.Pin().ToSharedRef());
+				Dialog.ToSharedRef(), RootWindow.Pin().ToSharedRef());
 		}
-		Window->SetContent(
-			SNew(SVerticalBox)
-			+ SVerticalBox::Slot()
-			.VAlign(VAlign_Center)
-			.FillHeight(1.f)
-			.Padding(2.f)
-			[
-				SNew(STextBlock)
-				.Text(LOCTEXT("Hello", "Hello"))
-			]
-			+ SVerticalBox::Slot()
-			. VAlign(VAlign_Center)
-			.FillHeight(1.f)
-			.Padding(2.f)
-			[
-				SNew(SButton)
-				.Text(LOCTEXT("Button", "Button"))
-				.OnClicked_Raw(this, &FOpenAssetWinPath::OnButtonClicked)
-			]
-			);
+		Dialog->SetDialogContent();
 	}
-	OpenAssetWindow.Pin()->BringToFront();
+	OpenAssetDialog.Pin()->BringToFront();
+	OpenAssetDialog.Pin()->SetFocusTopInputForm();
 }
 
-FReply FOpenAssetWinPath::OnButtonClicked()
-{
-	UE_LOG(LogTemp, Log, TEXT("OnButton"));
-	return FReply::Handled();
-}
+#undef LOCTEXT_NAMESPACE
+#endif

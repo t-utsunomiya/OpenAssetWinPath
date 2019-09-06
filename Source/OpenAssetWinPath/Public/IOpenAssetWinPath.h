@@ -1,3 +1,4 @@
+#ifdef WITH_EDITOR
 #pragma once
 
 #include "CoreMinimal.h"
@@ -36,3 +37,4 @@ public:
 	}
 };
 
+#endif

@@ -4,8 +4,8 @@ namespace UnrealBuildTool.Rules
 	{
 		public OpenAssetWinPath(ReadOnlyTargetRules Target) : base(Target)
 		{
-            PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-            PublicIncludePaths.AddRange(
+			PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+			PublicIncludePaths.AddRange(
 				new string[] {
 					// ... add public include paths required here ...
 				}
@@ -25,8 +25,9 @@ namespace UnrealBuildTool.Rules
 					"LevelEditor",
 					"Slate",
 					"SlateCore",
-                    "MainFrame",
-                    "InputCore",
+					"MainFrame",
+					"InputCore",
+					"CoreUObject",
 				}
 				);
 
