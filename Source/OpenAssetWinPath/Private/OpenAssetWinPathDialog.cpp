@@ -8,6 +8,7 @@
 #include "Widgets/Text/STextBlock.h"
 #include "Runtime/SlateCore/Public/Layout/WidgetPath.h"
 #include "Runtime/CoreUObject/Public/Misc/PackageName.h"
+#include "Toolkits/AssetEditorManager.h"
 
 #define LOCTEXT_NAMESPACE "OpenAssetWinPathDialog"
 
@@ -74,6 +75,19 @@ bool SOpenAssetWinPathDialog::GetPackageName(const FString& FilePath, FString& O
 
 FReply SOpenAssetWinPathDialog::OnOpenButtonClicked()
 {
+	FString const ContentDir = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir());
+	FString WindowsPathStr = WindowsPath.ToString();
+	FPaths::NormalizeFilename(WindowsPathStr);
+	if (WindowsPathStr.StartsWith(ContentDir))
+	{
+		FString AssetPath = FString(TEXT("/Game/")) + WindowsPathStr.RightChop(ContentDir.Len());
+		FAssetEditorManager::Get().OpenEditorForAsset(AssetPath);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Not Found Content Path In Input Asset Windows Path. " \
+			"Input Asset Windows Path: '%s', Expect Content Path: '%s'"), *WindowsPathStr, *ContentDir);
+	}
 	return FReply::Handled();
 }
 
