@@ -61,18 +61,6 @@ void SOpenAssetWinPathDialog::SetFocus(TSharedRef<SWidget> TargetWidget)
 	}
 }
 
-bool SOpenAssetWinPathDialog::GetPackageName(const FString& FilePath, FString& OutPackageName)
-{
-	FString FailureReason;
-	if (!FPackageName::TryConvertFilenameToLongPackageName(FilePath, OutPackageName, &FailureReason))
-	{
-		UE_LOG(LogTemp, Error, TEXT("Convert package name failed. filename: '%s', reason: '%s'")
-			, GetData(FilePath), GetData(FailureReason));
-		return false;
-	}
-	return true;
-}
-
 FReply SOpenAssetWinPathDialog::OnOpenButtonClicked()
 {
 	FString const ContentDir = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir());
