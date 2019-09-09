@@ -8,6 +8,10 @@
 #include "SWindow.h"
 #include "Framework/Application/SlateApplication.h"
 #include "OpenAssetWinPathDialog.h"
+#include "OpenAssetWinPathCommands.h"
+#include "Rendering/SlateRenderer.h"
+#include "Kismet2/DebuggerCommands.h"
+#include "EditorStyleSet.h"
 #define LOCTEXT_NAMESPACE "OpenAssetWinPath"
 
 
@@ -25,6 +29,11 @@ private:
 	void OnMainFrameLoad(TSharedPtr<SWindow> InRootWindow, bool bIsNewProjectWindow);
 	TWeakPtr<SWindow> RootWindow;
 	TWeakPtr<SOpenAssetWinPathDialog> OpenAssetDialog;
+
+private:
+	void OnEditorLoaded(SWindow& SlateWindow, void* ViewportRHIPtr);
+	bool IsCommandBind = false;
+	FDelegateHandle LoadedDelegateHandle;
 
 };
 
@@ -50,6 +59,11 @@ void FOpenAssetWinPath::StartupModule()
 		FModuleManager::LoadModuleChecked<IMainFrameModule>(TEXT("MainFrame"));
 	MainFrameModule.OnMainFrameCreationFinished().AddRaw(
 		this, &FOpenAssetWinPath::OnMainFrameLoad);
+
+	FOpenAssetWinPathCommands::Register();
+	FSlateRenderer* SlateRenderer = FSlateApplication::Get().GetRenderer();
+	LoadedDelegateHandle = SlateRenderer->OnSlateWindowRendered().AddRaw(
+		this, &FOpenAssetWinPath::OnEditorLoaded);
 }
 
 void FOpenAssetWinPath::ShutdownModule()
@@ -73,6 +87,31 @@ void FOpenAssetWinPath::OnMainFrameLoad(TSharedPtr<SWindow> InRootWindow, bool b
 	if ((!bIsNewProjectWindow) && (InRootWindow.IsValid()))
 	{
 		RootWindow = InRootWindow;
+	}
+}
+
+void FOpenAssetWinPath::OnEditorLoaded(SWindow& SlateWindow, void* ViewportRHIPtr)
+{
+	if (!GEditor)
+	{
+		return;
+	}
+	if (IsInGameThread())
+	{
+		FSlateRenderer* SlateRenderer = FSlateApplication::Get().GetRenderer();
+		SlateRenderer->OnSlateWindowRendered().Remove(LoadedDelegateHandle);
+	}
+	if (!IsCommandBind)
+	{
+		const FOpenAssetWinPathCommands& Commands = FOpenAssetWinPathCommands::Get();
+		if (FPlayWorldCommands::GlobalPlayWorldActions.IsValid())
+		{
+			FPlayWorldCommands::GlobalPlayWorldActions->MapAction(
+				Commands.OpenAssetWinPathCommand,
+				FExecuteAction::CreateRaw(this, &FOpenAssetWinPath::OnMenu)
+			);
+		}
+		IsCommandBind = true;
 	}
 }
 

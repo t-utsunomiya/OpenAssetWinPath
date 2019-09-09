@@ -28,6 +28,7 @@ namespace UnrealBuildTool.Rules
 					"MainFrame",
 					"InputCore",
 					"CoreUObject",
+					"EditorStyle",
 				}
 				);
 
