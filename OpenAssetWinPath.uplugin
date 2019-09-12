@@ -10,9 +10,9 @@
 	"DocsURL": "https://github.com/t-utsunomiya/OpenAssetWinPath",
 	"MarketplaceURL": "",
 	"SupportURL": "https://github.com/t-utsunomiya/OpenAssetWinPath/issues",
+	"EngineVersion": "4.22.0",
 	"CanContainContent": false,
-	"IsBetaVersion": false,
-	"Installed": false,
+	"Installed": true,
 	"Modules": [
 		{
 			"Name": "OpenAssetWinPath",
