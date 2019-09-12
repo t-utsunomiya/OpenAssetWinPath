@@ -7,10 +7,11 @@
 	"Category": "Utility",
 	"CreatedBy": "t_utsunomiya",
 	"CreatedByURL": "",
-	"DocsURL": "",
+	"DocsURL": "https://github.com/t-utsunomiya/OpenAssetWinPath",
 	"MarketplaceURL": "",
-	"SupportURL": "",
+	"SupportURL": "https://github.com/t-utsunomiya/OpenAssetWinPath/issues",
 	"CanContainContent": false,
+	"IsBetaVersion": false,
 	"Installed": false,
 	"Modules": [
 		{
