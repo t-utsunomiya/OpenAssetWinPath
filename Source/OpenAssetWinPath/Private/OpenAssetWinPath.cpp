@@ -5,7 +5,7 @@
 #include "LevelEditor.h"
 #include "Textures/SlateIcon.h"
 #include "Editor/MainFrame/Public/Interfaces/IMainFrameModule.h"
-#include "SWindow.h"
+#include "Widgets/SWindow.h"
 #include "Framework/Application/SlateApplication.h"
 #include "OpenAssetWinPathDialog.h"
 #include "OpenAssetWinPathCommands.h"
