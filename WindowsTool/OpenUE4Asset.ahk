@@ -18,7 +18,8 @@ UE4WindowClass := "UnrealWindow"
 OpenAsset(ByRef WindowsPath)
 {
 	BlockInput, on
-	SendInput, ^{a down}{a up}%WindowsPath%
+	clipboard = %WindowsPath%
+	Send, ^{a down}{a up}^v
 	SendInput, {Tab}{Enter}
 	BlockInput, off
 }
