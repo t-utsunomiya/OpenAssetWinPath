@@ -1,4 +1,4 @@
-; UE4 の Asset を開くためにファイル名などの情報を UE4Editor に渡すための ahk スクリプト.
+﻿; UE4 の Asset を開くためにファイル名などの情報を UE4Editor に渡すための ahk スクリプト.
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.

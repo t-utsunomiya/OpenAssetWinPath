@@ -20,12 +20,14 @@ public:
 
 private:
 	FReply OnOpenButtonClicked();
-	void OnChangeWindowsPath(const FText& NewAssetName);
+	void OnChangeWindowsPath(const FText& NewArgs);
 	void SetFocus(TSharedRef<SWidget> TargetWidget);
 	bool GetPackageName(const FString& FilePath, FString& OutPackageName);
+	bool Copy(const TCHAR* DestPath, const TCHAR* SrcPath);
 
 private:
 	FText WindowsPath;
+	FText AssetName;
 
 	TSharedPtr<SWidget> WindowsPathTextBox;
 	const TCHAR* WindowTitle;

@@ -29,6 +29,7 @@ namespace UnrealBuildTool.Rules
 					"InputCore",
 					"CoreUObject",
 					"EditorStyle",
+					"Engine",
 				}
 				);
 
