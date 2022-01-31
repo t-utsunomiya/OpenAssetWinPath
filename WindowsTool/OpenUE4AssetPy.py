@@ -13,7 +13,7 @@ import subprocess
 
 def OpenAsset(path):
   name = os.path.basename(path).split('.', 1)[0]
-  if 'T' in name:
+  if '#' in name:
     name = name.split('#', 1)[0]
   
   subprocess.call(('OpenUE4Asset.exe', path + ',' + name))
